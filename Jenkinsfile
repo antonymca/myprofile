@@ -1,55 +1,36 @@
-pipeline{
-    environment{
-        registry = 'antodocker/myprofile'
-        registryCredential = 'dockerhub'
-        dockerImage=''
+node {
+    def app
+
+    stage('Clone repository') {
+        /* Let's make sure we have the repository cloned to our workspace */
+
+        checkout scm
     }
-    agent any
-    tools {nodejs "node"}
-    
-    stages{
-        
-        stage('git clone'){
-            steps{
-                git 'https://github.com/antonymca/myprofile.git'
-            }
-        }
-        
-        stage('install dependencies'){
-            steps{
-                sh 'npm install'
-            }
-        }
-        
-        stage('Test'){
-            steps{
-                sh 'npm test'
-            }
-        }
 
-        stage('Building Image'){
-            steps{
-                script{
-                    dockerImage = docker.build("antodocker/myprofile" + ":$BUILD_NUMBER")
-                }
-            }
-        }
+    stage('Build image') {
+        /* This builds the actual image; synonymous to
+         * docker build on the command line */
 
-        stage('Deploy Image'){
-            steps{
-                script{
-                    docker.withRegistry('https://registry.hub.docker.com',registryCredential){
-                        dockerImage.push()
-                    }
-                }
-            }
-        }
+        app = docker.build("antodocker/myprofile")
+    }
 
-        stage('Remove unused docker Image'){
-            steps{
-                sh 'docker rmi $registry:$BUILD_NUMBER'
-            }
+    stage('Test image') {
+        /* Ideally, we would run a test framework against our image.
+         * For this example, we're using a Volkswagen-type approach ;-) */
+
+        app.inside {
+            sh 'echo "Tests passed"'
         }
-        
+    }
+
+    stage('Push image') {
+        /* Finally, we'll push the image with two tags:
+         * First, the incremental build number from Jenkins
+         * Second, the 'latest' tag.
+         * Pushing multiple tags is cheap, as all the layers are reused. */
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
+        }
     }
 }
