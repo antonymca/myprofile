@@ -1,16 +1,31 @@
-var expect  = require('chai').expect;
-var request = require('request');
+let chai  = require('chai');
+let chaiHttp = require('chai-http');
+let server = require('../bin/www');
+let should = chai.should();
+let expect = chai.expect;
 
-it('Default url', function(done) {
-    request('http://localhost:4000' , function(error, response, body) {
-        expect(response.statusCode).to.equal(200);
-        done();
-    });
+chai.use(chaiHttp);
+
+describe('/GET /', () => {
+    it('it should GET the default user', (done) => {
+        chai.request('http://localhost:4000')
+            .get('/')
+            .end((err,res) => {
+                //console.info(res);
+                res.should.have.status(200);                
+                res.body.data.should.an('array');
+                done();
+            })
 });
 
 it('Users url', function(done) {
-    request('http://localhost:4000/users' , function(error, response, body) {
-        expect(response.statusCode).to.equal(200);
-        done();
-    });
+    chai.request('http://localhost:4000')
+        .get('/users')
+        .end((err,res) =>{
+            res.should.have.status(200);                
+            res.body.data.should.an('array');
+            done();
+        })
 });
+})
+
