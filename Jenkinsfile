@@ -1,4 +1,9 @@
 pipeline{
+    environment{
+        registry = 'antodocker/myprofile'
+        registryCredential = 'dockerhub'
+        dockerImage=''
+    }
     agent any
     tools {nodejs "node"}
     
@@ -19,6 +24,30 @@ pipeline{
         stage('Test'){
             steps{
                 sh 'npm test'
+            }
+        }
+
+        stage('Building Image'){
+            steps{
+                script{
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+
+        stage('Deploy Image'){
+            steps{
+                script{
+                    docker.withRegistry('',registryCredential){
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+
+        stage('Remove unused docker Image'){
+            steps{
+                sh 'docker rmi $registry:$BUILD_NUMBER'
             }
         }
         
