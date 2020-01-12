@@ -30,7 +30,7 @@ pipeline{
         stage('Building Image'){
             steps{
                 script{
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    dockerImage = docker.build("antodocker/myprofile" + ":$BUILD_NUMBER")
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline{
         stage('Deploy Image'){
             steps{
                 script{
-                    docker.withRegistry('',registryCredential){
+                    docker.withRegistry('https://registry.hub.docker.com',registryCredential){
                         dockerImage.push()
                     }
                 }
