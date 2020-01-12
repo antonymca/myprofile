@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 
 describe('/GET /', () => {
     it('it should GET the default user', (done) => {
-        chai.request('http://localhost:4000')
+        chai.request(server)
             .get('/')
             .end((err,res) => {
                 //console.info(res);
@@ -19,7 +19,7 @@ describe('/GET /', () => {
 });
 
 it('Users url', function(done) {
-    chai.request('http://localhost:4000')
+    chai.request(server)
         .get('/users')
         .end((err,res) =>{
             res.should.have.status(200);                
