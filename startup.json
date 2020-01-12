@@ -1,0 +1,9 @@
+{
+    "apps": [
+        {
+            "name": "myprofile",
+            "script": "npm",
+            "args" : "start"
+        }
+    ]
+}
