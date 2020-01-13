@@ -29,9 +29,7 @@ pipeline{
 
         stage('Building Image'){
             steps{
-                script{
-                    sh 'sudo usermod -aG docker $USER'
-                    echo 'script executed'
+                script{                   
                     dockerImage = docker.build("antodocker/myprofile" + ":$BUILD_NUMBER")
                 }
             }
