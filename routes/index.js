@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   const ipInfo = req.headers.host;
   logger.info(JSON.stringify(ipInfo));
   logger.info('entered base url');
-  res.json({"data":[{"name":"user8"}]});
+  res.json({"data":[{"name":"user7"}]});
 });
 
 module.exports = router;
