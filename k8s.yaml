@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: myProfile-Service
+    name: myProfile-service
 spec:
    type: LoadBalancer
    ports: 
       - port: 80
         targetPort: 3000
-    selector: 
-       app: myProfile
+   selector: 
+      app: myProfile
 
 ---
 
