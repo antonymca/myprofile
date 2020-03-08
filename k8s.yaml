@@ -3,16 +3,15 @@ kind: Pod
 metadata: 
     name: myprofile-pod
     labels:
-        - app: myprofile
-        - status:  approved
+        app: myprofile        
 spec: 
     containers:
-        - name: myprofile-api
-          image: antodocker/myprofile:17
-          ports: 3000
-          env: 
-           - name: PORT
-             value: 4000
-          imagePullPolicy: Always
+      - env: 
+         - name: PORT
+           value: 4000
+           name: myprofile-api
+           image: antodocker/myprofile:latest
+                    
+           
 
 
