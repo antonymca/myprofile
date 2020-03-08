@@ -1,17 +1,31 @@
 apiVersion: v1
-kind: Pod
-metadata: 
-    name: myprofile-pod
-    labels:
-        app: myprofile        
+kind: Service
+metadata:
+    name: myProfile-Service
+spec:
+   type: LoadBalancer
+   ports: 
+      - port: 80
+        targetPort: 3000
+    selector: 
+       app: myProfile
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: myProfile-Deployment
 spec: 
-    containers:
-      - env: 
-         - name: PORT
-           value: 4000
-           name: myprofile-api
-           image: antodocker/myprofile:latest
-                    
-           
-
-
+  replicas: 2
+  template: 
+    metadata: 
+      labels:
+        app: myProfile
+    spec:
+      containers:
+        - name: myProfile
+          imagePullPolicy: Always
+          image: antodocker/myprofile:latest
+          ports:
+            - containerPort: 3000
