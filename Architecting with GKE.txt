@@ -1,0 +1,38 @@
+
+# Access control and security in Kubernetes and GKE
+# GKE logging and monitoring
+# Using GCP managed storage service with GKE
+
+
+# Access control and security in Kubernetes and GKE
+
+    -Understand kubernetes  authentication and authorization.
+    -Define kubernetes roles and role bindings for accessing resources in namespace.
+    -Define kubernetes clustor roles and cluster role bindings for accessing cluster-scoped resources.
+    - Learn the structure of Cloud IAM
+    - Define IAM roles and policies for google kubernetes engine cluster administration.
+
+
+    =>authentication and authorization.
+        * CLoud IAM => Normal Users and kubernetes Service accounts - 
+        * Kubernetes RBAC
+        * Kubernetes control plane security
+        * pod security
+
+        - There are  2 main ways to authorize in GKE => IAM (Projects & cluster level) and RBAC (cluster and namespace level) fine tune rules in granular access to resources within the cluster;
+        - You will use Cloud IAM, to define who can view or change configuration of your GKE cluster, and you will use  RBAC, to define who can view or change kubernetes objects inside those kubernetes cluster
+        - With both of these methods, it's best practice to exercise the priciple of least privilages.
+        - In Kubernetes the api-server listens for remote requests using https on port 443.
+        - GKE 1.8 service accounts have no default permissions or access tokens
+        -  API-server -> supports 3 authentication 1) openID connect tokens 2) x509 client certificates 3) static password
+        - OpenID connect is a simple identity layer  on top of OAuth 2.0 p  rotocol. It lets clients verify the identity of an end user by crewing an authorization server.
+    
+
+    =>Cloud IAM:
+        * Who ?  what ? which?  => who => Identity of the user making request. What => What => set of permission granted => which? on which resources policies applies to.
+        * In Cloud IAM, you grant access to members. Cloud IAM will authenticate users against Cloud Identity. Don't forget, Cloud Identity is a service that governs Google accounts,
+         G-Suite domain accounts and GCP Service accounts, and don't forget that you can gather these identities into groups, and groups themselves can have their own permissions
+        * Active Directory or LDAP => Google Directory Sync service to synchronize from ur AD services to google domain. It's one way synchronize
+        * Organization, folder and projects. Policies assigned at organiz
+
+
